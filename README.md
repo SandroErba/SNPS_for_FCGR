@@ -1,32 +1,56 @@
 # Genomic Classification via FCGR and Spiking Neural P Systems (SNPS)
 
-An academic and reproducible machine learning pipeline for multi-class bacterial genomic classification. This project bypasses standard sliding-window $k$-mer extraction by using continuous **Frequency Chaos Game Representation (FCGR)** mapped directly into discretized $28 \times 28$ matrices, followed by feature extraction and classification using **Spiking Neural P Systems (SNPS)**.
+A SNPS simulator for bacterial genomic classification. This project bypasses standard sliding-window k-mer extraction by using continuous Frequency Chaos Game Representation (FCGR) mapped directly into discretized 28x28 matrices, followed by feature extraction and classification using SNPS.
 
----
+## Project Overview
 
-## ?? Project Overview
+* **Input Data:** Complete genomic sequences (FASTA) from 4 bacterial genera (Aeromonas, Citrobacter, Helicobacter, Streptococcus).
+* **Representation:** Direct 28x28 FCGR matrix mapping.
+* **Architecture:** 4-Layer Spiking Neural P System with an ensemble classifier (SVM & Logistic Regression).
+* **Dataset Partition:** An example with 157 total samples (117 Training / 40 Testing).
 
-- **Input Data**: Complete genomic sequences (FASTA) from 4 bacterial genera (*Aeromonas*, *Citrobacter*, *Helicobacter*, *Streptococcus*).
-- **Representation**: Direct $28 \times 28$ FCGR matrix mapping ($k \approx 4-5$ informativeness equivalent).
-- **Architecture**: 4-Layer Spiking Neural Network (SNPS) + Ensemble Quantized Classifier (SVM & Logistic Regression).
-- **Dataset Partition**: 157 total samples (117 Training / 40 Testing).
+## Environment Setup
 
----
+### 1. Install Python Dependencies
 
-## ?? Repository Structure
+```bash
+pip install -r requirements.txt
+```
 
-```text
-.
-+-- main.py                # Python entry point for dataset loading & SNPS execution
-+-- produce_fcgr.R         # R script for parallel fasta-to-FCGR 28x28 generation
-+-- download_dataset.sh    # Fast dataset acquisition script (NCBI CLI)
-+-- download_all_dataset.sh# Complete dataset acquisition script (NCBI CLI)
-+-- requirements.txt       # Environment dependencies
-+-- sps/                   # Spiking Neural P System core module
-    +-- config.py          # Network architecture & dataset split settings
-    +-- network.py         # SNPS training, feature extraction, & ensemble pipeline
-    +-- snp_system.py      # Core spiking neuron implementation & simulation loop
-    +-- p_neuron.py        # Individual neuron mechanics
-    +-- spike_utils.py     # Rule transformation & event utilities
-    +-- handle_csv.py      # Output & metric logging
-    +-- exact_csv.py       # Exact rule CSV export utilities
+### 2. Install R Dependencies
+
+Run R in your terminal or environment and execute:
+
+```r
+install.packages(c("kaos", "seqinr", "foreach", "doParallel"))
+```
+
+## Complete Execution Pipeline
+
+Execute the following commands in sequence to run the complete data acquisition, matrix generation, and model training workflow:
+
+### Step 1: Download Genomic Dataset
+
+```bash
+bash download_dataset.sh
+```
+
+### Step 2: Extract 28x28 FCGR Matrices
+
+```bash
+Rscript produce_fcgr.R
+```
+
+### Step 3: Run Training and Classification Pipeline
+
+```bash
+python main.py -i dataset_28x28
+```
+
+## Configuration Settings
+
+Dataset partition and matrix resolution parameters configured in `sps/config.py`:
+
+* **Matrix Resolution:** 28x28 (`IMG_SHAPE = 28`)
+* **Target Classes:** 4 (Aeromonas, Citrobacter, Helicobacter, Streptococcus)
+* **Dataset Split:** 157 total samples (117 Training / 40 Testing)
