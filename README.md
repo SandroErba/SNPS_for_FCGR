@@ -7,11 +7,27 @@ A SNPS simulator for bacterial genomic classification. This project bypasses sta
 * **Input Data:** Complete genomic sequences (FASTA) from 4 bacterial genera (Aeromonas, Citrobacter, Helicobacter, Streptococcus).
 * **Representation:** Direct 28x28 FCGR matrix mapping.
 * **Architecture:** 4-Layer Spiking Neural P System with an ensemble classifier (SVM & Logistic Regression).
-* **Dataset Partition:** An example with 157 total samples (117 Training / 40 Testing).
+* **Dataset Partition:** An example with 40 total samples (30 Training / 10 Testing).
 
 ## Environment Setup
 
+### 0. Clone the Repository
+
+```bash
+git clone https://github.com/SandroErba/SNPS_for_FCGR.git
+cd SNPS_for_FCGR
+```
+
 ### 1. Install Python Dependencies
+
+Create and activate a virtual environment:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+Then install the dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -19,10 +35,16 @@ pip install -r requirements.txt
 
 ### 2. Install R Dependencies
 
-Run R in your terminal or environment and execute:
+Create a local R library folder:
 
-```r
-install.packages(c("kaos", "seqinr", "foreach", "doParallel"))
+```bash
+mkdir -p ~/R/library
+```
+
+Then install the packages into it:
+
+```bash
+Rscript -e 'install.packages(c("kaos", "seqinr", "foreach", "doParallel"), lib="~/R/library", repos="https://cloud.r-project.org")'
 ```
 
 ## Complete Execution Pipeline
@@ -41,6 +63,8 @@ bash download_dataset.sh
 Rscript produce_fcgr.R
 ```
 
+Only the first samples are extracted, for a quick test. The code contains the parameter `MAX_SAMPLES`, which can be increased to extract more data.
+
 ### Step 3: Run Training and Classification Pipeline
 
 ```bash
@@ -53,4 +77,4 @@ Dataset partition and matrix resolution parameters configured in `sps/config.py`
 
 * **Matrix Resolution:** 28x28 (`IMG_SHAPE = 28`)
 * **Target Classes:** 4 (Aeromonas, Citrobacter, Helicobacter, Streptococcus)
-* **Dataset Split:** 157 total samples (117 Training / 40 Testing)
+* **Dataset Split:** 40 total samples (30 Training / 10 Testing)
