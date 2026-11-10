@@ -11,7 +11,7 @@ from sps.config import Config
 
 def main():
     parser = argparse.ArgumentParser(description="SNPS Classification Pipeline for FCGR Matrices")
-    parser.add_argument('-i', '--input', help='Path to the input dataset directory containing subdirectories of matrices (e.g., dataset_28x28)', required=True)
+    parser.add_argument('-i', '--input', help='Path to the input dataset directory containing subdirectories of matrices (e.g., dataset_8x8)', required=True)
     parser.add_argument('--seed', type=int, default=42, help='Random seed for reproducible shuffling')
     args = parser.parse_args()
 
@@ -27,7 +27,7 @@ def main():
     genre_dirs = sorted([d for d in dataset_path.glob('*/') if d.is_dir()])
     
     print("==========================================================")
-    print(" LOADING AND PREPROCESSING FCGR MATRICES (28x28)")
+    print(" LOADING AND PREPROCESSING FCGR MATRICES")
     print("==========================================================")
     
     for label_idx, genus_dir in enumerate(genre_dirs):
@@ -41,7 +41,7 @@ def main():
             image = np.loadtxt(str(file_path), delimiter=' ')
             image = image.reshape(Config.IMG_SHAPE, Config.IMG_SHAPE)
             
-            # Corrected 8-bit Min-Max scaling (0-255) for SNN input
+            # 8-bit Min-Max scaling (0-255) for SNPS input
             M, m = np.max(image), np.min(image)
             if M > m:
                 image_norm = ((image - m) / (M - m)) * 255.0
