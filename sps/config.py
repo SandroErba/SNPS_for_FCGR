@@ -4,7 +4,7 @@ class Config:
     NUM_LAYERS = 4  #number of layers in the final network
 
     # IMAGES
-    IMG_SHAPE = 28 #ipotizing squared shape images of 28 pixels
+    IMG_SHAPE = 8 #ipotizing squared shape images of 28 pixels
     BLOCK_SHAPE = 2  #the size of the window block for the second layer
 
     #SNPS BEHAVIOUR
@@ -12,8 +12,8 @@ class Config:
     QUANTIZATION = True
     WHITE_HOLE= True #if true all the internal spikes are deleted after firing
 
-    TRAIN_SIZE = 117 #number of images for the train phase
-    TEST_SIZE = 40 #number of images for the test phase
+    TRAIN_SIZE = 30 #number of images for the train phase
+    TEST_SIZE = 10 #number of images for the test phase
 
     #LAYER 1 - INPUT IMAGE
     NEURONS_L1 = int(IMG_SHAPE ** 2) #number of neurons for layer 1 (pixels in the image)
